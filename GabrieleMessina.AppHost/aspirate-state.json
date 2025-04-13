@@ -1,20 +1,10 @@
 {
-  "projectPath": ".",
   "inputPath": "aspirate-output",
-  "outputPath": "aspirate-output",
-  "containerRegistry": "docker.io",
   "containerImageTags": [
     "latest"
   ],
-  "imagePullPolicy": "IfNotPresent",
-  "containerBuilder": "docker",
-  "containerRepositoryPrefix": "gabrielemessina",
-  "kubeContext": "minikube",
-  "outputFormat": "kustomize",
-  "skipFinalKustomizeGeneration": false,
-  "privateRegistryEmail": "aspir8@aka.ms",
-  "includeDashboard": true,
-  "useCustomNamespace": false,
+  "kubeContext": "gke_quantum-conduit-456716-r6_europe-southwest1_autopilot-cluster-1",
+  "outputFormat": "docker",
   "secrets": {
     "salt": "L1\u002BxS4s1TSwjAQVK",
     "hash": "/uLM870bL1Ogmcx1CLkcL0H5s6DjrEVxGzWPbtCppEU=",
@@ -25,6 +15,5 @@
         "ConnectionStrings__cache": "L1\u002BxS4s1TSwjAQVKmHg7dhw3F37/NMX6lh5GKBE1Cb7mR70KTW8="
       }
     }
-  },
-  "processAllComponents": true
+  }
 }
