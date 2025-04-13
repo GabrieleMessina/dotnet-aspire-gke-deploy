@@ -20,14 +20,29 @@ jobs:
       with:
         dotnet-version: '9.x' # Aspire requires .NET 8 or later
 
+    # - name: Set up Google Cloud SDK
+    #   uses: google-github-actions/auth@v2
+    #   with:
+    #     credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+    # - name: Get GKE credentials
+    #   uses: google-github-actions/get-gke-credentials@v2
+    #   with:
+    #     cluster_name: ${{ secrets.GKE_CLUSTER }}
+    #     location: ${{ secrets.GKE_ZONE }}
+    #     project_id: ${{ secrets.GCP_PROJECT }}
+
     - name: Restore dependencies
       run: dotnet restore
 
     - name: Build solution
       run: dotnet build --no-restore
 
-    - name: Generate Aspire manifest
-      run: dotnet aspire manifest generate --output ./aspire-manifest
+    - name: Install aspire8
+      run: dotnet tool install -g aspirate
+
+    - name: Apply k8s configurations 
+      run: aspirate apply 
 
     - name: Upload manifest artifact
       uses: actions/upload-artifact@v4
