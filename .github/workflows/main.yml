@@ -1,0 +1,36 @@
+name: Generate Aspire Manifest
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  generate-manifest:
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/dotnet/sdk:9.0
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '9.x' # Aspire requires .NET 8 or later
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build solution
+      run: dotnet build --no-restore
+
+    - name: Generate Aspire manifest
+      run: dotnet aspire manifest generate --output ./aspire-manifest
+
+    - name: Upload manifest artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: aspire-manifest
+        path: ./aspire-manifest
