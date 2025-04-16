@@ -1,7 +1,11 @@
+namespace: aspire
+
 resources:
 - cache
+- postgres
 - apiservice
 - webfrontend
+- namespace.yaml
 - dashboard.yaml
 
 generatorOptions:

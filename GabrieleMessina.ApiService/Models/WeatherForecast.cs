@@ -2,7 +2,7 @@
 
 namespace GabrieleMessina.ApiService.Models;
 
-public class WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
+public partial class WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
 {
     [Key]
     public string Id { get; set; } = Guid.NewGuid().ToString();

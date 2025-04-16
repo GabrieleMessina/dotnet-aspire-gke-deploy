@@ -8,7 +8,7 @@ public static class WeatherForecastEndpoints
 {
     public static void MapWeatherForecastEndpoints (this IEndpointRouteBuilder routes)
     {
-        var group = routes.MapGroup("/api/WeatherForecast").WithTags(nameof(WeatherForecast));
+        var group = routes.MapGroup("/api/WeatherForecast").WithTags(nameof(WeatherForecast)).WithOpenApi();
 
         group.MapGet("/", async (GabrieleMessinaApiServiceContext db) =>
         {
@@ -47,7 +47,7 @@ public static class WeatherForecastEndpoints
         {
             db.WeatherForecast.Add(weatherForecast);
             await db.SaveChangesAsync();
-            return TypedResults.Created($"/api/WeatherForecast/{weatherForecast.Id}",weatherForecast);
+            return TypedResults.Created($"/api/WeatherForecast/{weatherForecast.Id}", weatherForecast);
         })
         .WithName("CreateWeatherForecast")
         .WithOpenApi();

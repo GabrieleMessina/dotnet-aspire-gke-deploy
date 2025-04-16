@@ -1,16 +1,24 @@
 ﻿@page "/weather"
+@using GabrieleMessina.Web.Api
 @attribute [StreamRendering(true)]
 @attribute [OutputCache(Duration = 5)]
+@rendermode InteractiveServer
 
-@inject WeatherApiClient WeatherApi
+@inject WeatherForecastApiClient WeatherApi
 
 <PageTitle>Weather</PageTitle>
 
-<h1>Weather</h1>
+<div class="d-flex justify-content-between">
+    <div>
+        <h1>Weather</h1>
+        <p>This component demonstrates showing data loaded from a backend API service.</p>
+    </div>
+    <div>
+        <button class="btn btn-primary" @onclick="AddForecast">Add random forecast</button>
+    </div>
+</div>
 
-<p>This component demonstrates showing data loaded from a backend API service.</p>
-
-@if (forecasts == null)
+@if (_forecasts == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -26,10 +34,10 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var forecast in forecasts)
+            @foreach (var forecast in _forecasts)
             {
                 <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
+                    <td>@forecast.Date.ToString("D")</td>
                     <td>@forecast.TemperatureC</td>
                     <td>@forecast.TemperatureF</td>
                     <td>@forecast.Summary</td>
@@ -40,10 +48,16 @@ else
 }
 
 @code {
-    private WeatherForecast[]? forecasts;
+    private ICollection<WeatherForecast>? _forecasts;
 
     protected override async Task OnInitializedAsync()
     {
-        forecasts = await WeatherApi.GetWeatherAsync();
+        _forecasts = await WeatherApi.GetAllWeatherForecastsAsync();
+    }
+
+    private async Task AddForecast()
+    {
+        var newForecast = await WeatherApi.CreateWeatherForecastAsync(new WeatherForecast(DateTimeOffset.Now, (int)(Random.Shared.NextInt64() % 64), "Lorem ipsum"));
+        _forecasts?.Add(newForecast);
     }
 }

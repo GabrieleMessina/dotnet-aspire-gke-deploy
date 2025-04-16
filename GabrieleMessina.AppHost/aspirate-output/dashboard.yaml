@@ -49,4 +49,4 @@ spec:
       protocol: TCP
       port: 18889
       targetPort: 18889
-  type: LoadBalancer
+  type: ClusterIP

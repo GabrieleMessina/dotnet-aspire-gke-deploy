@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
@@ -7,6 +7,10 @@
     <IsAspireSharedProject>true</IsAspireSharedProject>
   </PropertyGroup>
 
+	<ItemGroup>
+        <OpenApiReference CodeGenerator="NSwagCSharp" Include="..\GabrieleMessina.ApiService\OpenApi\GabrieleMessina.ApiService.json" Namespace="GabrieleMessina.Web.Api" Link="OpenAPIs\GabrieleMessina.ApiService.json" OutputPath="OpenAPIs\WeatherForecastApiClient.cs" ClassName="WeatherForecastApiClient"/>
+	</ItemGroup>
+	
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
 
@@ -17,6 +21,16 @@
     <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.9.0" />
     <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.9.0" />
     <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.9.0" />
+
+	  <PackageReference Include="Microsoft.Extensions.ApiDescription.Client" Version="7.0.2">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+	  <PackageReference Include="NSwag.ApiDescription.Client" Version="13.18.2">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>
   </ItemGroup>
 
 </Project>
