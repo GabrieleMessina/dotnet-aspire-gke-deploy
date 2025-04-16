@@ -1,4 +1,10 @@
+using GabrieleMessina.ApiService.Endpoints;
+using GabrieleMessina.ApiService.Migrations;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.AddNpgsqlDbContext<GabrieleMessinaApiServiceContext>(connectionName: "postgresdb");
 
 // Add service defaults & Aspire client integrations.
 builder.AddServiceDefaults();
@@ -8,6 +14,10 @@ builder.Services.AddProblemDetails();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
@@ -19,27 +29,14 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-string[] summaries = ["Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"];
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
-
 app.MapDefaultEndpoints();
 
-app.Run();
+app.MapWeatherForecastEndpoints();
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
+using (var scope = app.Services.CreateScope())
 {
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    var context = scope.ServiceProvider.GetRequiredService<GabrieleMessinaApiServiceContext>();
+    context.Database.Migrate();
 }
+
+app.Run();
