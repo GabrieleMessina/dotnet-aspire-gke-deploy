@@ -39,14 +39,14 @@ jobs:
       run: dotnet build --no-restore
 
     - name: Install aspire8
-      run: dotnet tool install -g aspirate && PATH="$PATH:/github/home/.dotnet/tools"
+      run: dotnet tool install -g aspirate
 
     - name: Init aspirate 
-      run: aspirate init --non-interactive --container-registry "docker.io" --container-repository-prefix "gabrielemessina"
+      run: /github/home/.dotnet/tools/aspirate init --non-interactive --container-registry "docker.io" --container-repository-prefix "gabrielemessina"
       working-directory: GabrieleMessina.AppHost
 
     - name: Aspirate generate files
-      run: aspirate generate --non-interactive --include-dashboard --image-pull-policy "Always" --secret-password ${{ secrets.ASPIRATE_KEY }} --container-registry "docker.io" --container-repository-prefix "gabrielemessina"
+      run: PATH="$PATH:/github/home/.dotnet/tools" && aspirate generate --non-interactive --include-dashboard --image-pull-policy "Always" --secret-password ${{ secrets.ASPIRATE_KEY }} --container-registry "docker.io" --container-repository-prefix "gabrielemessina"
       working-directory: GabrieleMessina.AppHost
 
     # - name: Apply k8s configurations 
