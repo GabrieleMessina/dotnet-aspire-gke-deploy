@@ -1,0 +1,42 @@
+name: Destroy k8s environment
+
+on: workflow_dispatch
+
+jobs:
+  destroy-k8s:
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/dotnet/sdk:9.0
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '9.x' # Aspire requires .NET 8 or later
+
+    - name: Set up Google Cloud SDK
+      uses: google-github-actions/auth@v2
+      with:
+        credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+    - name: Get GKE credentials
+      uses: google-github-actions/get-gke-credentials@v2
+      with:
+        cluster_name: ${{ vars.GKE_CLUSTER }}
+        location: ${{ vars.GKE_ZONE }}
+        project_id: ${{ vars.GCP_PROJECT }}
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build solution
+      run: dotnet build --no-restore
+
+    - name: Install aspire8
+      run: dotnet tool install -g aspirate
+
+    - name: Destroy k8s configurations 
+      run: /github/home/.dotnet/tools/aspirate destroy --non-interactive
