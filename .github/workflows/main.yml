@@ -39,7 +39,7 @@ jobs:
       run: dotnet build --no-restore
 
     - name: Install aspire8
-      run: dotnet tool install -g aspirate
+      run: dotnet tool install -g aspirate && PATH="$PATH:/github/home/.dotnet/tools"
 
     - name: Init aspirate 
       run: aspirate init --non-interactive --container-registry "docker.io" --container-repository-prefix "gabrielemessina"
