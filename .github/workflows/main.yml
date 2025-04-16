@@ -46,7 +46,7 @@ jobs:
       working-directory: GabrieleMessina.AppHost
 
     - name: Aspirate generate files
-      run: PATH="$PATH:/github/home/.dotnet/tools" && aspirate generate --non-interactive --include-dashboard --image-pull-policy "Always" --secret-password ${{ secrets.ASPIRATE_KEY }} --container-registry "docker.io" --container-repository-prefix "gabrielemessina"
+      run: /github/home/.dotnet/tools/aspirate generate --non-interactive --include-dashboard --image-pull-policy "Always" --secret-password ${{ secrets.ASPIRATE_KEY }} --container-registry "docker.io" --container-repository-prefix "gabrielemessina"
       working-directory: GabrieleMessina.AppHost
 
     # - name: Apply k8s configurations 
