@@ -28,9 +28,9 @@ jobs:
     - name: Get GKE credentials
       uses: google-github-actions/get-gke-credentials@v2
       with:
-        cluster_name: ${{ secrets.GKE_CLUSTER }}
-        location: ${{ secrets.GKE_ZONE }}
-        project_id: ${{ secrets.GCP_PROJECT }}
+        cluster_name: ${{ vars.GKE_CLUSTER }}
+        location: ${{ vars.GKE_ZONE }}
+        project_id: ${{ vars.GCP_PROJECT }}
 
     - name: Restore dependencies
       run: dotnet restore
