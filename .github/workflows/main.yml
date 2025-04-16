@@ -20,17 +20,17 @@ jobs:
       with:
         dotnet-version: '9.x' # Aspire requires .NET 8 or later
 
-    # - name: Set up Google Cloud SDK
-    #   uses: google-github-actions/auth@v2
-    #   with:
-    #     credentials_json: ${{ secrets.GCP_SA_KEY }}
+    - name: Set up Google Cloud SDK
+      uses: google-github-actions/auth@v2
+      with:
+        credentials_json: ${{ secrets.GCP_SA_KEY }}
 
-    # - name: Get GKE credentials
-    #   uses: google-github-actions/get-gke-credentials@v2
-    #   with:
-    #     cluster_name: ${{ secrets.GKE_CLUSTER }}
-    #     location: ${{ secrets.GKE_ZONE }}
-    #     project_id: ${{ secrets.GCP_PROJECT }}
+    - name: Get GKE credentials
+      uses: google-github-actions/get-gke-credentials@v2
+      with:
+        cluster_name: ${{ secrets.GKE_CLUSTER }}
+        location: ${{ secrets.GKE_ZONE }}
+        project_id: ${{ secrets.GCP_PROJECT }}
 
     - name: Restore dependencies
       run: dotnet restore
@@ -41,8 +41,17 @@ jobs:
     - name: Install aspire8
       run: dotnet tool install -g aspirate
 
-    - name: Apply k8s configurations 
-      run: aspirate apply 
+    - name: Init aspirate 
+      run: aspirate init --non-interactive --container-registry "docker.io" --container-repository-prefix "gabrielemessina"
+      working-directory: GabrieleMessina.AppHost
+
+    - name: Aspirate generate files
+      run: aspirate generate --non-interactive --include-dashboard --image-pull-policy "Always" --secret-password ${{ secrets.ASPIRATE_KEY }} --container-registry "docker.io" --container-repository-prefix "gabrielemessina"
+      working-directory: GabrieleMessina.AppHost
+
+    # - name: Apply k8s configurations 
+      # run: aspirate apply --non-interactive --secret-password ${{ secrets.ASPIRATE_KEY }} && aspirate destroy --non-interactive
+      # working-directory: GabrieleMessina.AppHost
 
     - name: Upload manifest artifact
       uses: actions/upload-artifact@v4
