@@ -38,5 +38,6 @@ jobs:
     - name: Install aspire8
       run: dotnet tool install -g aspirate
 
-    - name: Destroy k8s configurations 
-      run: /github/home/.dotnet/tools/aspirate destroy --non-interactive
+    # - name: Destroy k8s configurations 
+      # run: /github/home/.dotnet/tools/aspirate destroy --non-interactive
+      # TODO: this needs all the configurations file that are not versioned anymore, because the password was mismatching.
