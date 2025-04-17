@@ -9,7 +9,7 @@ jobs:
   generate-manifest:
     runs-on: ubuntu-latest
     container:
-      image: mcr.microsoft.com/dotnet/sdk:9.0
+      image: docker.io/gabrielemessina/cloud-systems-course:latest
 
     steps:
     - name: Checkout code
@@ -32,11 +32,6 @@ jobs:
         location: ${{ vars.GKE_ZONE }}
         project_id: ${{ vars.GCP_PROJECT }}
         
-    - name: Set up Docker
-      uses: docker/setup-docker-action@v3.5.0
-      with:
-        rootless: 'true'
-
     - name: Log in to Docker Hub
       uses: docker/login-action@v3
       with:
