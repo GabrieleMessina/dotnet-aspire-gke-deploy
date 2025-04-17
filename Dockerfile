@@ -2,7 +2,7 @@
 
 # Install Docker CLI and Kubernetes CLI
 RUN apt-get update
-RUN apt-get install apt-transport-https ca-certificates curl gnupg
+RUN apt-get install -y apt-transport-https ca-certificates curl gnupg
 RUN install -m 0755 -d /etc/apt/keyrings
 RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
 RUN curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.32/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
