@@ -1,11 +1,13 @@
+using GabrieleMessina.AppHost.Extensions;
+
 var builder = DistributedApplication.CreateBuilder(args);
 
 var cache = builder.AddRedis("rediscache");
 
-var postgres = builder.AddPostgres("postgres");
+var postgres = builder.AddPostgres("postgres")
     // .WithDbGate()
     // .WithExternalHttpEndpoints()
-    // .WithDataVolume(isReadOnly: false);
+    .WithPersistentStorage();
 
 var postgresdb = postgres.AddDatabase("postgresdb");
 

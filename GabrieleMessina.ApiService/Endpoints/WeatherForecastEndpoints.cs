@@ -12,6 +12,7 @@ public static class WeatherForecastEndpoints
 
         group.MapGet("/", async (GabrieleMessinaApiServiceContext db) =>
         {
+            await db.Database.MigrateAsync();
             return await db.WeatherForecast.ToListAsync();
         })
         .WithName("GetAllWeatherForecasts")

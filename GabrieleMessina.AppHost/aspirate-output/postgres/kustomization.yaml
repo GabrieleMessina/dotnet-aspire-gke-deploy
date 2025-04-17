@@ -1,5 +1,5 @@
 resources:
-- deployment.yaml
+- statefulset.yaml
 - service.yaml
 
 generatorOptions:
@@ -11,7 +11,8 @@ configMapGenerator:
     - POSTGRES_HOST_AUTH_METHOD=scram-sha-256
     - POSTGRES_INITDB_ARGS=--auth-host=scram-sha-256 --auth-local=scram-sha-256
     - POSTGRES_USER=postgres
-    - POSTGRES_PASSWORD=ABAZgm!PGpR23QKVm!RLy8
+    - POSTGRES_PASSWORD=EkY5N786F47YoDUeZwrNKL
+    - PGDATA=/var/lib/postgresql/data/aspirate
     - OTEL_EXPORTER_OTLP_ENDPOINT=http://aspire-dashboard:18889
     - OTEL_SERVICE_NAME=postgres
 
