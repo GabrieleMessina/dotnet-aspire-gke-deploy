@@ -59,8 +59,12 @@ jobs:
       run: sed -i 's/ClusterIP/LoadBalancer/g' ./aspirate-output/webfrontend/service.yaml ./aspirate-output/dashboard.yaml
       working-directory: GabrieleMessina.AppHost
 
+    - name: Get kubectl contexts 
+      run: kubectl config get-contexts
+      working-directory: GabrieleMessina.AppHost
+
     - name: Apply k8s configurations 
-      run: /github/home/.dotnet/tools/aspirate apply --non-interactive --secret-password ${{ secrets.ASPIRATE_KEY }} && aspirate destroy --non-interactive
+      run: /github/home/.dotnet/tools/aspirate apply --non-interactive --secret-password ${{ secrets.ASPIRATE_KEY }}
       working-directory: GabrieleMessina.AppHost
 
     - name: Upload manifest artifact
