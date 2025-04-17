@@ -1,0 +1,11 @@
+resources:
+- rediscache
+- postgres
+- apiservice
+- webfrontend
+- dashboard.yaml
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+

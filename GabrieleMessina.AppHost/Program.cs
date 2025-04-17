@@ -2,9 +2,10 @@ var builder = DistributedApplication.CreateBuilder(args);
 
 var cache = builder.AddRedis("rediscache");
 
-var postgres = builder.AddPostgres("postgres")
-    .WithDbGate()
-    .WithDataVolume(isReadOnly: false);
+var postgres = builder.AddPostgres("postgres");
+    // .WithDbGate()
+    // .WithExternalHttpEndpoints()
+    // .WithDataVolume(isReadOnly: false);
 
 var postgresdb = postgres.AddDatabase("postgresdb");
 
@@ -13,7 +14,6 @@ var apiService = builder.AddProject<Projects.GabrieleMessina_ApiService>("apiser
     .WaitFor(postgresdb);
 
 builder.AddProject<Projects.GabrieleMessina_Web>("webfrontend")
-    .WithExternalHttpEndpoints()
     .WithReference(cache)
     .WaitFor(cache)
     .WithReference(apiService)
