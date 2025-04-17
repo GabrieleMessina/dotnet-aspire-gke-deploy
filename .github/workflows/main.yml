@@ -71,4 +71,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: aspire-manifest
-        path: ./aspire-manifest
+        path: ./GabrieleMessina.AppHost/aspirate-output
