@@ -9,35 +9,47 @@ jobs:
       image: mcr.microsoft.com/dotnet/sdk:9.0
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Setup .NET SDK
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '9.x' # Aspire requires .NET 8 or later
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.x' # Aspire requires .NET 8 or later
 
-    - name: Set up Google Cloud SDK
-      uses: google-github-actions/auth@v2
-      with:
-        credentials_json: ${{ secrets.GCP_SA_KEY }}
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
 
-    - name: Get GKE credentials
-      uses: google-github-actions/get-gke-credentials@v2
-      with:
-        cluster_name: ${{ vars.GKE_CLUSTER }}
-        location: ${{ vars.GKE_ZONE }}
-        project_id: ${{ vars.GCP_PROJECT }}
+      - name: Get GKE credentials
+        uses: google-github-actions/get-gke-credentials@v2
+        with:
+          cluster_name: ${{ vars.GKE_CLUSTER }}
+          location: ${{ vars.GKE_ZONE }}
+          project_id: ${{ vars.GCP_PROJECT }}
 
-    - name: Restore dependencies
-      run: dotnet restore
+      - name: Restore dependencies
+        run: dotnet restore
 
-    - name: Build solution
-      run: dotnet build --no-restore
+      - name: Build solution
+        run: dotnet build --no-restore
 
-    - name: Install aspire8
-      run: dotnet tool install -g aspirate
+      - name: Install aspire8
+        run: dotnet tool install -g aspirate
 
-    # - name: Destroy k8s configurations 
-      # run: /github/home/.dotnet/tools/aspirate destroy --non-interactive
-      # TODO: this needs all the configurations file that are not versioned anymore, because the password was mismatching.
+      - name: Init aspirate
+        run: /github/home/.dotnet/tools/aspirate init --non-interactive --container-registry "docker.io" --container-repository-prefix "gabrielemessina"
+        working-directory: GabrieleMessina.AppHost
+
+      - name: Aspirate generate files
+        run: /github/home/.dotnet/tools/aspirate generate --non-interactive --include-dashboard --skip-build --image-pull-policy "Always" --secret-password ${{ secrets.ASPIRATE_KEY }} --container-registry "docker.io" --container-repository-prefix "gabrielemessina"
+        working-directory: GabrieleMessina.AppHost
+
+      - name: Replace ClusterIp with LoadBalancer
+        run: sed -i 's/ClusterIP/LoadBalancer/g' ./aspirate-output/webfrontend/service.yaml ./aspirate-output/dashboard.yaml
+        working-directory: GabrieleMessina.AppHost
+
+      - name: Destroy k8s configurations
+        run: /github/home/.dotnet/tools/aspirate destroy --non-interactive
+        working-directory: GabrieleMessina.AppHost
