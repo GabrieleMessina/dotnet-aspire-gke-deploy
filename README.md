@@ -41,3 +41,12 @@ aspirate generate --non-interactive --disable-secrets --include-dashboard --imag
 aspirate apply --non-interactive --disable-secrets -k "k8s_context_if_multiple"
 aspirate destroy --non-interactive --disable-secrets -k "k8s_context_if_multiple"
 ```
+
+## Utils
+```bash
+kubectl config current-context
+kubectl config get-contexts
+kubectl config use-context gke_quantum-conduit-456716-r6_europe-southwest1_autopilot-cluster-1
+kubectl config use-context minikube
+```
+

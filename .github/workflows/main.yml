@@ -57,6 +57,7 @@ jobs:
 
     - name: Replace ClusterIp with LoadBalancer
       run: sed -i 's/ClusterIP/LoadBalancer/g' ./aspirate-output/webfrontend/service.yaml ./aspirate-output/dashboard.yaml
+      working-directory: GabrieleMessina.AppHost
 
     # - name: Apply k8s configurations 
       # run: aspirate apply --non-interactive --secret-password ${{ secrets.ASPIRATE_KEY }} && aspirate destroy --non-interactive
