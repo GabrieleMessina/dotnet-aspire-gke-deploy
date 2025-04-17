@@ -9,7 +9,7 @@ jobs:
   generate-manifest:
     runs-on: ubuntu-latest
     container:
-      image: docker.io/gabrielemessina/cloud-systems-course:latest
+      image: docker.io/gabrielemessina/cloud-systems-course:main
 
     steps:
     - name: Checkout code
