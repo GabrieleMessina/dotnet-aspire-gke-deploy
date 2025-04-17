@@ -6,7 +6,7 @@ jobs:
   destroy-k8s:
     runs-on: ubuntu-latest
     container:
-      image: mcr.microsoft.com/dotnet/sdk:9.0
+      image: docker.io/gabrielemessina/cloud-systems-course:main
 
     steps:
       - name: Checkout code
