@@ -35,7 +35,7 @@ jobs:
     - name: Set up Docker
       uses: docker/setup-docker-action@v3.5.0
       with:
-        rootless: true
+        rootless: 'true'
 
     - name: Log in to Docker Hub
       uses: docker/login-action@v3
