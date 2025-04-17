@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  generate-manifest:
+  deploy-k8s:
     runs-on: ubuntu-latest
     container:
       image: docker.io/gabrielemessina/cloud-systems-course:main
@@ -60,7 +60,7 @@ jobs:
       working-directory: GabrieleMessina.AppHost
 
     - name: Apply k8s configurations 
-      run: aspirate apply --non-interactive --secret-password ${{ secrets.ASPIRATE_KEY }} && aspirate destroy --non-interactive
+      run: /github/home/.dotnet/tools/aspirate apply --non-interactive --secret-password ${{ secrets.ASPIRATE_KEY }} && aspirate destroy --non-interactive
       working-directory: GabrieleMessina.AppHost
 
     - name: Upload manifest artifact
