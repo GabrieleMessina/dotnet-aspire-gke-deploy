@@ -6,14 +6,9 @@ name: Docker image publish
 # documentation.
 
 on:
-  schedule:
-    - cron: '23 9 * * *'
   push:
     branches: [ "main" ]
-    # Publish semver tags as releases.
-    tags: [ 'v*.*.*' ]
-  pull_request:
-    branches: [ "main" ]
+    paths: [ "Dockerfile" ]
 
 env:
   # Use docker.io for Docker Hub if empty
