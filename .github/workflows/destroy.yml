@@ -6,7 +6,7 @@ jobs:
   destroy-k8s:
     runs-on: ubuntu-latest
     container:
-      image: docker.io/gabrielemessina/cloud-systems-course:main
+      image: docker.io/gabrielemessina/dotnet-aspire-gke-deploy:main
 
     steps:
       - name: Checkout code
