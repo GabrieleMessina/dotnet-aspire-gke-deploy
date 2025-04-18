@@ -64,7 +64,7 @@ jobs:
       working-directory: GabrieleMessina.AppHost
 
     - name: Apply k8s configurations 
-      run: /github/home/.dotnet/tools/aspirate apply --non-interactive --secret-password ${{ secrets.ASPIRATE_KEY }}
+      run: /github/home/.dotnet/tools/aspirate apply --non-interactive --secret-password ${{ secrets.ASPIRATE_KEY }} -k ${{ vars.KUBERNETES_CONTEXT }}
       working-directory: GabrieleMessina.AppHost
 
     - name: Upload manifest artifact

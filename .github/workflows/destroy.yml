@@ -51,5 +51,5 @@ jobs:
         working-directory: GabrieleMessina.AppHost
 
       - name: Destroy k8s configurations
-        run: /github/home/.dotnet/tools/aspirate destroy --non-interactive
+        run: /github/home/.dotnet/tools/aspirate destroy --non-interactive -k ${{ vars.KUBERNETES_CONTEXT }}
         working-directory: GabrieleMessina.AppHost
