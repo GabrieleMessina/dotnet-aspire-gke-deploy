@@ -56,7 +56,7 @@ jobs:
       working-directory: GabrieleMessina.AppHost
 
     - name: Replace ClusterIp with LoadBalancer
-      run: sed -i 's/ClusterIP/LoadBalancer/g' ./aspirate-output/webfrontend/service.yaml ./aspirate-output/dashboard.yaml
+      run: sed -i 's/ClusterIP/LoadBalancer/g' ./aspirate-output/webfrontend/service.yaml ./aspirate-output/dashboard.yaml ./aspirate-output/postgres/service.yaml
       working-directory: GabrieleMessina.AppHost
 
     - name: Get kubectl contexts 
