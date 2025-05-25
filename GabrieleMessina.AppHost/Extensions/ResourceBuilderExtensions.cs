@@ -9,7 +9,5 @@ public static class ResourceBuilderExtensions
         
         builder.WithEnvironment("PGDATA", pgDataEnvVar);
         return builder.WithDataVolume();
-        // return builder.WithVolume(VolumeNameGenerator.Generate(builder, "data"),
-        //     pgDataEnvVar, isReadOnly);
     }   
 }

@@ -29,7 +29,7 @@ dotnet tool install -g aspirate
 dotnet build
 cd ./GabrieleMessina.AppHost
 aspirate init --non-interactive --container-registry "docker.io" --container-repository-prefix "your_container_registry_username"
-aspirate generate --non-interactive --include-dashboard --secret-password $psw --namespace aspirate --image-pull-policy "Always" --container-registry "docker.io" --container-repository-prefix "your_container_registry_username"
+aspirate generate --non-interactive --include-dashboard --secret-password $psw --namespace aspirate --image-pull-policy "Always" --container-registry "docker.io" --container-repository-prefix "your_container_registry_username" --parameter 'dbuser=YOUR_POSTGRES_USER' --parameter 'dbpsw=YOUR_POSTGRES_PSW'
 aspirate apply --non-interactive --secret-password $psw -k "k8s_context_if_multiple"
 ```
 

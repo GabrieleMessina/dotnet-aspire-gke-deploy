@@ -7,8 +7,6 @@ var cache = builder.AddRedis("rediscache");
 var dbuser = builder.AddParameter("dbuser", "postgres");
 var dbpsw = builder.AddParameter("dbpsw", "1234", false, true);
 var postgres = builder.AddPostgres("postgres", dbuser, dbpsw)
-    // .WithDbGate()
-    // .WithExternalHttpEndpoints()
     .WithPersistentStorage();
 
 var postgresdb = postgres.AddDatabase("postgresdb");

@@ -35,11 +35,3 @@ app.MapDefaultEndpoints();
 app.MapWeatherForecastEndpoints();
 
 app.Run();
-
-//TODO: add retry logic or similar.
-// using (var scope = app.Services.CreateScope())
-// {
-//     var context = scope.ServiceProvider.GetRequiredService<GabrieleMessinaApiServiceContext>();
-//     
-//     context.Database.Migrate();
-// }
