@@ -10,16 +10,18 @@ public static class WeatherForecastEndpoints
     {
         var group = routes.MapGroup("/api/WeatherForecast").WithTags(nameof(WeatherForecast)).WithOpenApi();
 
-        group.MapGet("/", async (GabrieleMessinaApiServiceContext db) =>
+        group.MapGet("/", async (GabrieleMessinaApiServiceContext db, ILogger<WeatherForecast> logger, HttpContext ctx) =>
         {
+            logger.LogInformation("GetAllWeatherForecasts endpoint called");
             await db.Database.MigrateAsync();
             return await db.WeatherForecast.ToListAsync();
         })
         .WithName("GetAllWeatherForecasts")
         .WithOpenApi();
 
-        group.MapGet("/{id}", async Task<Results<Ok<WeatherForecast>, NotFound>> (string id, GabrieleMessinaApiServiceContext db) =>
+        group.MapGet("/{id}", async Task<Results<Ok<WeatherForecast>, NotFound>> (string id, GabrieleMessinaApiServiceContext db, ILogger<WeatherForecast> logger) =>
         {
+            logger.LogInformation("GetWeatherForecastById endpoint called with id: {Id}", id);
             return await db.WeatherForecast.AsNoTracking()
                 .FirstOrDefaultAsync(model => model.Id == id)
                 is WeatherForecast model
@@ -29,8 +31,9 @@ public static class WeatherForecastEndpoints
         .WithName("GetWeatherForecastById")
         .WithOpenApi();
 
-        group.MapPut("/{id}", async Task<Results<Ok, NotFound>> (string id, WeatherForecast weatherForecast, GabrieleMessinaApiServiceContext db) =>
+        group.MapPut("/{id}", async Task<Results<Ok, NotFound>> (string id, WeatherForecast weatherForecast, GabrieleMessinaApiServiceContext db, ILogger<WeatherForecast> logger) =>
         {
+            logger.LogInformation("UpdateWeatherForecast endpoint called with id: {Id}", id);
             var affected = await db.WeatherForecast
                 .Where(model => model.Id == id)
                 .ExecuteUpdateAsync(setters => setters
@@ -44,8 +47,9 @@ public static class WeatherForecastEndpoints
         .WithName("UpdateWeatherForecast")
         .WithOpenApi();
 
-        group.MapPost("/", async (WeatherForecast weatherForecast, GabrieleMessinaApiServiceContext db) =>
+        group.MapPost("/", async (WeatherForecast weatherForecast, GabrieleMessinaApiServiceContext db, ILogger<WeatherForecast> logger) =>
         {
+            logger.LogInformation("CreateWeatherForecast endpoint called");
             db.WeatherForecast.Add(weatherForecast);
             await db.SaveChangesAsync();
             return TypedResults.Created($"/api/WeatherForecast/{weatherForecast.Id}", weatherForecast);
@@ -53,11 +57,13 @@ public static class WeatherForecastEndpoints
         .WithName("CreateWeatherForecast")
         .WithOpenApi();
 
-        group.MapDelete("/{id}", async Task<Results<Ok, NotFound>> (string id, GabrieleMessinaApiServiceContext db) =>
+        group.MapDelete("/{id}", async Task<Results<Ok, NotFound>> (string id, GabrieleMessinaApiServiceContext db, ILogger<WeatherForecast> logger) =>
         {
+            logger.LogInformation("DeleteWeatherForecast endpoint called with id: {Id}", id);
             var affected = await db.WeatherForecast
                 .Where(model => model.Id == id)
                 .ExecuteDeleteAsync();
+            
             return affected == 1 ? TypedResults.Ok() : TypedResults.NotFound();
         })
         .WithName("DeleteWeatherForecast")

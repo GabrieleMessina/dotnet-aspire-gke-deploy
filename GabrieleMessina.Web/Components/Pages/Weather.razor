@@ -48,6 +48,9 @@ else
 }
 
 @code {
+    [Inject]
+    private ILogger<Weather> logger { get; set; } = default!;
+
     private ICollection<WeatherForecast>? _forecasts;
 
     protected override async Task OnInitializedAsync()
@@ -57,6 +60,7 @@ else
 
     private async Task AddForecast()
     {
+        logger.LogInformation("Adding a new forecast");
         var newForecast = await WeatherApi.CreateWeatherForecastAsync(new WeatherForecast(DateTimeOffset.Now, (int)(Random.Shared.NextInt64() % 64), "Lorem ipsum"));
         _forecasts?.Add(newForecast);
     }
