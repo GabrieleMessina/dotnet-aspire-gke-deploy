@@ -61,7 +61,9 @@ else
     private async Task AddForecast()
     {
         logger.LogInformation("Adding a new forecast");
-        var newForecast = await WeatherApi.CreateWeatherForecastAsync(new WeatherForecast(DateTimeOffset.Now, (int)(Random.Shared.NextInt64() % 64), "Lorem ipsum"));
+        var tempC = (int)(Random.Shared.NextInt64() % 45);
+        var summary = tempC > 25 ? "Hot" : "Cold";
+        var newForecast = await WeatherApi.CreateWeatherForecastAsync(new WeatherForecast(DateTimeOffset.Now, tempC, summary));
         _forecasts?.Add(newForecast);
     }
 }
